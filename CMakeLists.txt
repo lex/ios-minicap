@@ -8,7 +8,6 @@ set(SOURCE_FILES
         src/SimpleServer.cpp src/SimpleServer.hpp
         src/FrameListener.cpp src/FrameListener.hpp
         src/Banner.cpp src/Banner.hpp
-        src/JpegEncoder.cpp src/JpegEncoder.hpp
         src/StreamClient.mm src/StreamClient.h
         src/Frame.hpp)
 

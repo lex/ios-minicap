@@ -4,7 +4,7 @@ set -exo pipefail
 
 UDID=$(system_profiler SPUSBDataType | sed -n -E -e '/(iPhone|iPad)/,/Serial/s/ *Serial Number: *(.+)/\1/p')
 PORT=12345
-RESOLUTION="400x600"
+RESOLUTION="1080x1920"
 
 ./build/ios_minicap \
     --udid $UDID \
