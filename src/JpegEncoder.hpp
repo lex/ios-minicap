@@ -2,6 +2,7 @@
 #define IOS_MINICAP_JPEGENCODER_HPP
 
 
+#include <cmath>
 #include <MagickWand/MagickWand.h>
 #include "Frame.hpp"
 
@@ -14,12 +15,14 @@ public:
     unsigned char* getEncodedData() const;
     size_t getEncodedSize() const;
     void cleanUp();
+    void setScale(double factor);
 
 private:
     MagickWand* mWand = nullptr;
 
     unsigned char* mEncodedData;
     size_t mEncodedSize;
+    double scale = 1.0f;
 };
 
 
