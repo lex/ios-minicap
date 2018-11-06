@@ -7,20 +7,19 @@
 
 class JpegEncoder {
 public:
-    JpegEncoder(Frame *frame);
+    JpegEncoder();
     ~JpegEncoder();
 
-    void encode(Frame *frame);
-    unsigned char* getEncodedData();
-    size_t getEncodedSize();
-    unsigned long getBufferSize();
+    void encode(Frame* frame);
+    unsigned char* getEncodedData() const;
+    size_t getEncodedSize() const;
+    void cleanUp();
 
 private:
-    MagickWand* wand = nullptr;
+    MagickWand* mWand = nullptr;
 
     unsigned char* mEncodedData;
     size_t mEncodedSize;
-    unsigned long mBufferSize;
 };
 
 

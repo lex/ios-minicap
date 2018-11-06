@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 
     client.lockFrame(&frame);
     std::cout << "resolution: " << frame.width << "x" << frame.height << std::endl;
-    JpegEncoder encoder(&frame);
+    JpegEncoder encoder;
 
     DeviceInfo realInfo, desiredInfo;
     realInfo.orientation = 0;
@@ -205,6 +205,8 @@ int main(int argc, char **argv) {
             if ( pumps(socket, encoder.getEncodedData(), encoder.getEncodedSize()) < 0 ) {
                 break;
             }
+
+            encoder.cleanUp();
         }
         client.stop();
     }
