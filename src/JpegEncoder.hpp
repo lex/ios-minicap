@@ -2,9 +2,7 @@
 #define IOS_MINICAP_JPEGENCODER_HPP
 
 
-#include <cstdio>
-
-#include <turbojpeg.h>
+#include <MagickWand/MagickWand.h>
 #include "Frame.hpp"
 
 class JpegEncoder {
@@ -18,15 +16,11 @@ public:
     unsigned long getBufferSize();
 
 private:
-    tjhandle mCompressor;
-    int mQuality;
-    TJSAMP mSubsampling;
-    TJPF mFormat;
+    MagickWand* wand = nullptr;
 
     unsigned char* mEncodedData;
     size_t mEncodedSize;
     unsigned long mBufferSize;
-
 };
 
 

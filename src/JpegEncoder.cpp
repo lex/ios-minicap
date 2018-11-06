@@ -1,45 +1,30 @@
 #include <iostream>
 #include "JpegEncoder.hpp"
 
-
 JpegEncoder::JpegEncoder(Frame *frame) {
-    mCompressor = tjInitCompress();
-    mQuality = 80;
-    mSubsampling = TJSAMP_420;
-    mFormat = TJPF_BGRA;
-    mBufferSize = tjBufSize(
-            frame->width,
-            frame->height,
-            mSubsampling
-    );
-    std::cout << "Allocating " << mBufferSize << " bytes for JPEG encoder" << std::endl;
-
-    mEncodedData = tjAlloc(mBufferSize);
-    mEncodedSize = 0;
+    MagickWandGenesis();
+    wand = NewMagickWand();
 }
 
 JpegEncoder::~JpegEncoder() {
-    tjDestroy(mCompressor);
-    tjFree(mEncodedData);
+  // TODO: clean up
 }
 
-
 void JpegEncoder::encode(Frame *frame) {
-    if ( tjCompress2(
-             mCompressor,
-             (unsigned char*)frame->data,
-             frame->width,
-             frame->bytesPerRow,
-             frame->height,
-             mFormat,
-             &mEncodedData,
-             &mEncodedSize,
-             mSubsampling,
-             mQuality,
-             TJFLAG_FASTDCT | TJFLAG_NOREALLOC) < 0 ) {
-        std::cout << "Compress to JPEG failed: " << tjGetErrorStr() << std::endl;
+    const auto width = frame->width;
+    const auto height = frame->height;
+    const auto data = frame->data;
 
-    };
+    MagickConstituteImage(wand, width, height, "BGRA", CharPixel, data);
+
+    MagickSetSize(wand, width, height);
+    MagickSetImageFormat(wand, "JPEG");
+    MagickSetCompressionQuality(wand, 80);
+
+    size_t length = 0;
+    mEncodedData = MagickGetImageBlob(wand, &length);
+    mEncodedSize = length;
+    // do we need to free memory?
 }
 
 unsigned char *JpegEncoder::getEncodedData() {

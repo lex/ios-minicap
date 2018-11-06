@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.5.2)
 project(ios_minicap)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -g")
+FIND_PACKAGE(ImageMagick
+  REQUIRED
+  COMPONENTS MagickWand
+)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -g -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16")
 
 set(SOURCE_FILES
         src/minicap.cpp
@@ -14,9 +19,7 @@ set(SOURCE_FILES
 
 add_executable(ios_minicap ${SOURCE_FILES})
 
-include_directories(
-        /usr/local/opt/jpeg-turbo/include
-)
+include_directories(${ImageMagick_INCLUDE_DIRS})
 
 target_link_libraries (ios_minicap
         "-framework Foundation"
@@ -25,4 +28,5 @@ target_link_libraries (ios_minicap
         "-framework CoreVideo"
         "-framework CoreMediaIO"
         "-framework AVFoundation"
-        /usr/local/opt/jpeg-turbo/lib/libturbojpeg.a)
+        ${ImageMagick_MagickWand_LIBRARY}
+        )
