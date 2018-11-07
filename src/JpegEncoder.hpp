@@ -3,6 +3,7 @@
 
 
 #include <cmath>
+#include <numeric>
 #include <MagickWand/MagickWand.h>
 #include "Frame.hpp"
 
