@@ -1,8 +1,9 @@
 #include "JpegEncoder.hpp"
 
-JpegEncoder::JpegEncoder() {
+JpegEncoder::JpegEncoder(Frame* frame) {
     MagickWandGenesis();
     mWand = NewMagickWand();
+    gcd = std::gcd(frame->width, frame->height);
 }
 
 JpegEncoder::~JpegEncoder() {
@@ -18,15 +19,10 @@ void JpegEncoder::encode(Frame* frame) {
     const auto height = frame->height;
     const auto data = frame->data;
 
-    // TODO: move this somewhere so it's not calculated on every frame
-    // the raw might be wider than just plain width, so pad it if needed
-    const auto gcd = std::gcd(width, height);
-    const auto paddedWidth = width + gcd;
-
     const auto columns = std::round(scale * width);
     const auto rows = std::round(scale * height);
 
-    MagickConstituteImage(mWand, width % 8 == 0 ? width : paddedWidth, height, pixelFormat, CharPixel, data);
+    MagickConstituteImage(mWand, width % 8 == 0 ? width : width + gcd, height, pixelFormat, CharPixel, data);
 
     MagickSetSize(mWand, width, height);
     MagickSetImageFormat(mWand, imageFormat);

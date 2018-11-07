@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 
     client.lockFrame(&frame);
     std::cout << "resolution: " << frame.width << "x" << frame.height << std::endl;
-    JpegEncoder encoder;
+    JpegEncoder encoder(&frame);
 
     DeviceInfo realInfo, desiredInfo;
     realInfo.orientation = 0;

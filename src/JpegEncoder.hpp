@@ -9,7 +9,7 @@
 
 class JpegEncoder {
 public:
-    JpegEncoder();
+    JpegEncoder(Frame* frame);
     ~JpegEncoder();
 
     void encode(Frame* frame);
@@ -24,6 +24,7 @@ private:
     unsigned char* mEncodedData;
     size_t mEncodedSize;
     double scale = 1.0f;
+    int gcd = 0;
 };
 
 
